@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 import sys
 import os
@@ -14,7 +14,7 @@ import time
 
 VERSION = "2.1.0"
 localedir = os.path.join(os.path.dirname(__file__), 'locale')
-_ = gettext.translation(domain = 'scratch2mcpi', localedir = localedir, fallback = True).ugettext
+_ = gettext.translation(domain = 'scratch2mcpi', localedir = localedir, fallback = True).gettext # Changed for Python 3
 
 def is_number(value):
     if (isinstance(value, (int, float))):
@@ -26,7 +26,7 @@ def connect():
     try:
         return scratch.Scratch()
     except scratch.ScratchError:
-        print _("Error: Unable to connect to Scratch. Scratch may be not running or the remote sensor connections may be not enabled.")
+        print(_("Error: Unable to connect to Scratch. Scratch may be not running or the remote sensor connections may be not enabled.")) # Changed for Python 3
         return None
 
 def _listen(s):
@@ -34,7 +34,7 @@ def _listen(s):
         try:
             yield s.receive()
         except scratch.ScratchError:
-            print _("Error: Disconnected from Scratch.")
+            print(_("Error: Disconnected from Scratch.")) # Changed for Python 3
             raise StopIteration
 
 def listen(s, mc):
@@ -67,7 +67,7 @@ def listen(s, mc):
 
     for msg in _listen(s):
         if (msg):
-            print "Received: %s" % str(msg)
+            print("Received: %s" % str(msg)) # Changed for Python 3
             if msg[0] == 'broadcast':
                 if not mc:
                     mc = minecraft.Minecraft.create()
@@ -76,88 +76,88 @@ def listen(s, mc):
                 elif msg[1] == 'setPos':
                     if (is_number(mcpiX) and is_number(mcpiY) and is_number(mcpiZ)):
                         mc.player.setPos(mcpiX, mcpiY, mcpiZ)
-                        print "setPos: %.1f %.1f %.1f" % (mcpiX, mcpiY, mcpiZ)
+                        print("setPos: %.1f %.1f %.1f" % (mcpiX, mcpiY, mcpiZ)) # Changed for Python 3
                 elif msg[1] == 'setBlock':
                     if (is_number(mcpiX) and is_number(mcpiY) and is_number(mcpiZ) and is_number(blockTypeId) and is_number(blockData)):
                         mc.setBlock(mcpiX, mcpiY, mcpiZ, blockTypeId, blockData)
-                        print "setBlock: %d %d %d %d %d" % (mcpiX, mcpiY, mcpiZ, blockTypeId, blockData)
+                        print("setBlock: %d %d %d %d %d" % (mcpiX, mcpiY, mcpiZ, blockTypeId, blockData)) # Changed for Python 3
                 # Minecraft Graphics Turtle(Start)
                 elif msg[1] == 'turtle:setPos':
                     if is_number(mcpiX) and is_number(mcpiY) and is_number(mcpiZ):
                         steve.setposition(mcpiX, mcpiY, mcpiZ)
-                        print "turtle:setPos: %.1f %.1f %.1f" % (mcpiX, mcpiY, mcpiZ)
+                        print("turtle:setPos: %.1f %.1f %.1f" % (mcpiX, mcpiY, mcpiZ)) # Changed for Python 3
                 elif msg[1] == 'turtle:forward':
                     if is_number(steps):
                         steve.forward(steps)
-                        print "steve.forward: (%d)" % (steps)
+                        print("steve.forward: (%d)" % (steps)) # Changed for Python 3
                 elif msg[1] == 'turtle:backward':
                     if is_number(steps):
                         steve.backward(steps)
-                        print "steve.backward: (%d)" % (steps)
+                        print("steve.backward: (%d)" % (steps)) # Changed for Python 3
                 elif msg[1] == 'turtle:right':
                     if is_number(degrees):
                         steve.right(degrees)
-                        print "steve.right: (%d)" % (degrees)
+                        print("steve.right: (%d)" % (degrees)) # Changed for Python 3
                 elif msg[1] == 'turtle:left':
                     if is_number(degrees):
                         steve.left(degrees)
-                        print "steve.left: (%d)" % (degrees)
+                        print("steve.left: (%d)" % (degrees)) # Changed for Python 3
                 elif msg[1] == 'turtle:up':
                     if is_number(degrees):
                         steve.up(degrees)
-                        print "steve.up: (%d)" % (degrees)
+                        print("steve.up: (%d)" % (degrees)) # Changed for Python 3
                 elif msg[1] == 'turtle:down':
                     if is_number(degrees):
                         steve.down(degrees)
-                        print "steve.down: (%d)" % (degrees)
+                        print("steve.down: (%d)" % (degrees)) # Changed for Python 3
                 elif msg[1] == 'turtle:penup':
                     steve.penup()
-                    print "steve.penup"
+                    print("steve.penup") # Changed for Python 3
                 elif msg[1] == 'turtle:pendown':
                     steve.pendown()
-                    print "steve.pendown"
+                    print("steve.pendown") # Changed for Python 3
                 elif msg[1] == 'turtle:setheading':
                     if is_number(degrees):
                         steve.setheading(degrees)
-                        print "steve.setheading: (%d)" % (degrees)
+                        print("steve.setheading: (%d)" % (degrees)) # Changed for Python 3
                 elif msg[1] == 'turtle:setverticalheading':
                     if is_number(degrees):
                         steve.setverticalheading(degrees)
-                        print "steve.setverticalheading: (%d)" % (degrees)
+                        print("steve.setverticalheading: (%d)" % (degrees)) # Changed for Python 3
                 # Minecraft Graphics Turtle(End)
                 # Minecraft Stuff(Start)
                 elif msg[1] == 'stuff:drawLine':
                     mcDrawing.drawLine(int(mcpiX1), int(mcpiY1), int(mcpiZ1), int(mcpiX), int(mcpiY), int(mcpiZ), blockTypeId, blockData)
-                    print "mcDrawing.drawLine: (%d, %d, %d, %d, %d, %d, %d, %d)" % (mcpiX1, mcpiY1, mcpiZ1, mcpiX, mcpiY, mcpiZ, blockTypeId, blockData)
+                    print("mcDrawing.drawLine: (%d, %d, %d, %d, %d, %d, %d, %d)" % (mcpiX1, mcpiY1, mcpiZ1, mcpiX, mcpiY, mcpiZ, blockTypeId, blockData)) # Changed for Python 3
                 elif msg[1] == 'stuff:drawSphere':
                     mcDrawing.drawSphere(mcpiX, mcpiY, mcpiZ, radius, blockTypeId, blockData)
-                    print "mcDrawing.drawSphere: (%d, %d, %d, %d, %d, %d)" % (mcpiX, mcpiY, mcpiZ, radius, blockTypeId, blockData)
+                    print("mcDrawing.drawSphere: (%d, %d, %d, %d, %d, %d)" % (mcpiX, mcpiY, mcpiZ, radius, blockTypeId, blockData)) # Changed for Python 3
                 elif msg[1] == 'stuff:drawCircle':
                     mcDrawing.drawCircle(mcpiX, mcpiY, mcpiZ, radius, blockTypeId, blockData)
-                    print "mcDrawing.drawCircle: (%d, %d, %d, %d, %d, %d)" % (mcpiX, mcpiY, mcpiZ, radius, blockTypeId, blockData)
+                    print("mcDrawing.drawCircle: (%d, %d, %d, %d, %d, %d)" % (mcpiX, mcpiY, mcpiZ, radius, blockTypeId, blockData)) # Changed for Python 3
                 elif msg[1] == 'stuff:resetShapePoints':
                     shapePoints = []
                     mcDrawing = stuff.MinecraftDrawing(mc)
                 elif msg[1] == 'stuff:setShapePoints':
                     shapePoints.append(minecraft.Vec3(int(mcpiX), int(mcpiY), int(mcpiZ)))
-                    print "append.shapePoints:"
-                    print ' '.join(str(p) for p in shapePoints)
+                    print("append.shapePoints:") # Changed for Python 3
+                    print(' '.join(str(p) for p in shapePoints)) # Changed for Python 3
                 elif msg[1] == 'stuff:drawFace':
                     if (fill == 'True'):
                         fillFlag = True
                     elif (fill == 'False'):
                         fillFlag = False
                     mcDrawing.drawFace(shapePoints, fillFlag, blockTypeId)
-                    print "mcDrawing.drawFace:"
-                    print ' '.join(str(p) for p in shapePoints)
-                    print(fill)
-                    print(blockTypeId)
+                    print("mcDrawing.drawFace:") # Changed for Python 3
+                    print(' '.join(str(p) for p in shapePoints)) # Changed for Python 3
+                    print(fill) # Changed for Python 3
+                    print(blockTypeId) # Changed for Python 3
                 # Minecraft Stuff(End)
 
                 elif msg[1] == 'setBlocks':
                     if (is_number(mcpiX0) and is_number(mcpiY0) and is_number(mcpiZ0) and is_number(mcpiX1) and is_number(mcpiY1) and is_number(mcpiZ1) and is_number(blockTypeId) and is_number(blockData)):
                         mc.setBlocks(mcpiX0, mcpiY0, mcpiZ0, mcpiX1, mcpiY1, mcpiZ1, blockTypeId, blockData)
-                        print "setBlocks(%d, %d, %d, %d, %d, %d, %d, %d" % (mcpiX0, mcpiY0, mcpiZ0, mcpiX1, mcpiY1, mcpiZ1, blockTypeId, blockData)
+                        print("setBlocks(%d, %d, %d, %d, %d, %d, %d, %d" % (mcpiX0, mcpiY0, mcpiZ0, mcpiX1, mcpiY1, mcpiZ1, blockTypeId, blockData)) # Changed for Python 3
                 elif msg[1] == 'getPos':
                     playerPos = mc.player.getPos()
                     pos = playerPos
@@ -178,7 +178,7 @@ def listen(s, mc):
                     })
                 elif msg[1] == 'pollBlockHits':
                     blockEvents = mc.events.pollBlockHits()
-                    print blockEvents
+                    print(blockEvents) # Changed for Python 3
                     if blockEvents:
                         blockEvent = blockEvents[-1]
                         s.sensorupdate({
@@ -230,10 +230,10 @@ def listen(s, mc):
                 fill = msg[1].get('fill', fill)
 
 def main():
-    print "================="
-    print "Sratch2MCPI %s" % VERSION
-    print "================="
-    print ""
+    print("=================") # Changed for Python 3
+    print("Sratch2MCPI %s" % VERSION) # Changed for Python 3
+    print("=================") # Changed for Python 3
+    print("") # Changed for Python 3
 
     while True:
         s = connect()
@@ -241,7 +241,7 @@ def main():
 
         if (s):
             mc.postToChat("Scratch2MCPI connected to Minecraft Pi.")
-            print _("Connected to Scratch")
+            print(_("Connected to Scratch")) # Changed for Python 3
 
             s.broadcast("hello_minecraft")
             s.broadcast("setPos")

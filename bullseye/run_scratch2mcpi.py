@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 import os
 import glob
 
@@ -31,6 +31,6 @@ else:
   sleep = 10
   if lower_than_raspi3():
      sleep = 30
-  os.system("scratch --document \"%s\" & sleep %d" % (MCPI_TEMPLATE, sleep))
+  os.system("scratch --document \"%s\" & sleep %d" % (MCPI_TEMPLATE, sleep)) # Fixed indentation
 
-os.system("lxterminal -t Scratch2MCPI -e python2 " + os.environ['HOME'] + "/scratch2mcpi/bullseye/scratch2mcpi.py")
+os.system("lxterminal -t Scratch2MCPI -e python3 " + os.environ['HOME'] + "/scratch2mcpi/bullseye/scratch2mcpi.py") # Changed python2 to python3
